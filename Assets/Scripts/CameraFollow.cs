@@ -29,11 +29,12 @@ public class CameraFollow : MonoBehaviour
         }
 
         // Adding the delta to the current position.
-        transform.position += new Vector3(delta.x, 7.5f, 0);
+        transform.position += new Vector3(delta.x, 7.6f, 0);
 
         // Making sure that the y position stays the same.
         var tp = transform.position;
-        tp.y = 7.5f;
+        tp.y = 7.6f;
+        tp.x = Mathf.Clamp(tp.x, 7.5f, 190f);
         transform.position = tp;
     }
     void Update()
