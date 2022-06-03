@@ -26,9 +26,10 @@ public class UISystem : MonoBehaviour
         time =- Time.deltaTime;
         timeTMP.text = Mathf.RoundToInt(time).ToString();
         lifesTMP.text = Mathf.RoundToInt(lifes).ToString();
-        if (points <= 1000) pointsTMP.text = "000" + Mathf.RoundToInt(points).ToString();
-        else if(points <= 10000) pointsTMP.text = "00" + Mathf.RoundToInt(points).ToString();
-        else if(points <= 100000) pointsTMP.text = "0" + Mathf.RoundToInt(points).ToString();
+        if (points == 0) pointsTMP.text = "000000" + Mathf.RoundToInt(points).ToString();
+        else if (points <= 99) pointsTMP.text = "000" + Mathf.RoundToInt(points).ToString();
+        else if (points <= 999) pointsTMP.text = "00" + Mathf.RoundToInt(points).ToString();
+        else if(points <= 9999) pointsTMP.text = "0" + Mathf.RoundToInt(points).ToString();
     }
 
     public void AddPoints(int i)
