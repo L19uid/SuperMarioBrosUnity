@@ -10,7 +10,15 @@ public class Player : MonoBehaviour
 
     [Header("Health")]  
     public PlayerStatus pStatus = PlayerStatus.normal;
-    public enum PlayerStatus { normal, big, flowered };
+    public enum PlayerStatus { normal, big};
+    [Header("Small mario")]  
+    public Vector2 bigMarioSize;
+    public Vector2 bigMarioOffset;
+    public Sprite smallMarioSprite;
+    [Header("Big mario")]
+    public Vector2 smallMarioSize;
+    public Vector2 smallMarioOffset;
+    public Sprite bigMarioSprite;
 
     [Header("Stats")]
     public float moveSpeed;
@@ -28,27 +36,65 @@ public class Player : MonoBehaviour
     [Header("GroundCheck")]
     public Animator animator;
 
+    public bool canMove = true;
+
+
     void Start()
     {
         _rb = gameObject.GetComponent<Rigidbody2D>();
-        animator = gameObject.GetComponent<Animator>();
+        animator = pVisuals.transform.gameObject.GetComponent<Animator>();
     }
 
     void Update()
     {
-        // Checks whether we are standing on a ground surface.
-        isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, (int)mask);
-        
-        // Gets input.
-        moveInput.x = Input.GetAxisRaw("Horizontal");
-
-        // Flips the visuals depending on the input.
-        Flipper();
-
-        // Jumping.
-        if (Input.GetKeyDown(KeyCode.Space)&&isGrounded)
+        if (!canMove)
         {
-            Jump(jumpForce);
+            // Checks whether we are standing on a ground surface.
+            isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, (int)mask);
+
+            // Gets input.
+            moveInput.x = Input.GetAxisRaw("Horizontal");
+
+            // Flips the visuals depending on the input.
+            Flipper();
+
+            // Jumping.
+            if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+            {
+                Jump(jumpForce);
+            }
+
+            if(moveInput.x != 0)
+                animator.SetBool("isMoving", false);
+            else
+                animator.SetBool("isMoving", true);
+        }
+    }
+
+    public void EndGame()
+    {
+
+    }
+
+    public void ChangeHealth(int i)
+    {
+        if (i < 0 && pStatus == PlayerStatus.normal) EndGame();
+
+        if (i > 0)
+        {
+            pStatus = PlayerStatus.big;
+
+            gameObject.GetComponent<BoxCollider2D>().size = bigMarioSize;
+            gameObject.GetComponent<BoxCollider2D>().offset = bigMarioSize;
+            animator.SetBool("isBig", true);
+        }
+        else 
+        { 
+            pStatus = PlayerStatus.normal;
+
+            gameObject.GetComponent<BoxCollider2D>().size = smallMarioSize;
+            gameObject.GetComponent<BoxCollider2D>().offset = smallMarioSize;
+            animator.SetBool("isBig", false);
         }
     }
 
@@ -75,5 +121,13 @@ public class Player : MonoBehaviour
         // Draws an outline of our groundcheck.
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
+
+        // Draws an outline of small collider.
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(new Vector2(gameObject.transform.position.x + smallMarioOffset.x, gameObject.transform.position.y + smallMarioOffset.y), smallMarioSize);
+
+        // Draws an outline of big collider.
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireCube(new Vector2(gameObject.transform.position.x + bigMarioOffset.x, gameObject.transform.position.y + bigMarioOffset.y), bigMarioSize);
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class UISystem : MonoBehaviour
@@ -9,6 +10,7 @@ public class UISystem : MonoBehaviour
     public TextMeshProUGUI lifesTMP;
     public TextMeshProUGUI worldTMP;
     public TextMeshProUGUI timeTMP;
+    public GameObject reloadUI;
 
     public float time = 400;
     public int points;
@@ -26,7 +28,7 @@ public class UISystem : MonoBehaviour
         time =- Time.deltaTime;
         timeTMP.text = Mathf.RoundToInt(time).ToString();
         lifesTMP.text = Mathf.RoundToInt(lifes).ToString();
-        if (points == 0) pointsTMP.text = "000000" + Mathf.RoundToInt(points).ToString();
+        if (points == 0) pointsTMP.text = "00000" + Mathf.RoundToInt(points).ToString();
         else if (points <= 99) pointsTMP.text = "000" + Mathf.RoundToInt(points).ToString();
         else if (points <= 999) pointsTMP.text = "00" + Mathf.RoundToInt(points).ToString();
         else if(points <= 9999) pointsTMP.text = "0" + Mathf.RoundToInt(points).ToString();
@@ -36,9 +38,14 @@ public class UISystem : MonoBehaviour
     {
         points += i;
     }
-
-    public void LooseLife()
+    public void ShowReloadSceneUI()
     {
-        lifes--;
+        Time.timeScale = 0;
+        reloadUI.SetActive(true);
+    }
+    public void ReloadScene()
+    {
+        Time.timeScale = 1;
+        SceneManager.LoadScene("SampleScene");
     }
 }

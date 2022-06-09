@@ -15,11 +15,8 @@ public class BlockScript : MonoBehaviour
     public int rewardPoints;
     public Sprite changeSprite;
     public GameObject ui;
-    public bool multipleUses;
     public int usesCount;
-    private int usedCount;
-
-    private bool notUsed = true;
+    private int usedCount = 0;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -27,15 +24,11 @@ public class BlockScript : MonoBehaviour
         {
             GetComponent<Animator>().Play("block_PopUp");
             
-            if(coin || msuhroom && notUsed)
+            if(usedCount < usesCount && coin || msuhroom )
             {
-                gameObject.GetComponentInChildren<SpriteRenderer>().sprite = changeSprite;
-                if (multipleUses) 
-                {
-                    if (usedCount < usesCount) usedCount++;
-                    else multipleUses = false;
-                }
-                else notUsed = false;
+                usedCount++;
+                if(usedCount >= usesCount)
+                    gameObject.GetComponentInChildren<SpriteRenderer>().sprite = changeSprite;
 
                 if (coin)
                 {
@@ -43,7 +36,8 @@ public class BlockScript : MonoBehaviour
                     StartCoroutine(WaitForText());
                 }
 
-                if (msuhroom) Instantiate(msuhroomGO, new Vector2(transform.position.x, transform.position.y + .5f), Quaternion.identity);
+                if (msuhroom) 
+                    Instantiate(msuhroomGO, new Vector2(transform.position.x, transform.position.y + .5f), Quaternion.identity);
                 if (destroyable)
                 {
                     Destroy(Instantiate(blockBreakP, new Vector2(transform.position.x, transform.position.y + .5f), Quaternion.identity), .4f);
