@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GumbaScript : MonoBehaviour
+public class MushroomScript : MonoBehaviour
 {
-     public float moveSpeed;
-     public bool movingRight;
+    public float moveSpeed;
+    public bool movingRight;
 
-    public Transform cornerCastPos;
     public Transform sideCastPos;
 
     public Vector2 castSize;
@@ -16,14 +15,14 @@ public class GumbaScript : MonoBehaviour
     public LayerMask mask;
     public LayerMask playerMask;
 
-    public bool cc = false;
-    public bool gc = false;
+    public bool sc = false;
 
     private bool canMove = true;
+    public GameObject reward;
 
     // Update is called once per frame
     void Update()
-     {
+    {
         CheckPlayer();
         if (!canMove) return;
 
@@ -33,14 +32,9 @@ public class GumbaScript : MonoBehaviour
 
     public void CheckWhereWalk()
     {
-        cc = Physics2D.OverlapBox(cornerCastPos.position, castSize, 0, (int)mask);
-        gc = Physics2D.OverlapBox(sideCastPos.position, castSize, 0, (int)mask);
+        sc = Physics2D.OverlapBox(sideCastPos.position, castSize, 0, (int)mask);
 
-        if (cc && gc)
-        {
-            movingRight = !movingRight;
-        }
-        else if (cc == false)
+        if (sc)
         {
             movingRight = !movingRight;
         }
@@ -60,19 +54,15 @@ public class GumbaScript : MonoBehaviour
         }
     }
 
-    public void Die()
-    {
-        gameObject.GetComponent<Animator>().Play("gumba_death");
-        Destroy(gameObject, .5f);
-    }
-
     public void CheckPlayer()
     {
         Collider2D hit = Physics2D.OverlapBox(gameObject.transform.position, killCastSize, 0, (int)playerMask);
 
         if (hit != null)
         {
-            GameObject.Find("Canvas").GetComponent<UISystem>().ShowReloadSceneUI();
+            GameObject.Find("Canvas").GetComponent<UISystem>().points += 1000;
+            Destroy(Instantiate(reward, new Vector2(transform.position.x, transform.position.y + .5f), Quaternion.identity), .5f);
+            Destroy(gameObject);
         }
     }
 

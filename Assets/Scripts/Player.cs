@@ -8,18 +8,6 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rb;
     public GameObject pVisuals;
 
-    [Header("Health")]  
-    public PlayerStatus pStatus = PlayerStatus.normal;
-    public enum PlayerStatus { normal, big};
-    [Header("Small mario")]  
-    public Vector2 bigMarioSize;
-    public Vector2 bigMarioOffset;
-    public Sprite smallMarioSprite;
-    [Header("Big mario")]
-    public Vector2 smallMarioSize;
-    public Vector2 smallMarioOffset;
-    public Sprite bigMarioSprite;
-
     [Header("Stats")]
     public float moveSpeed;
     private Vector2 moveInput;
@@ -29,14 +17,18 @@ public class Player : MonoBehaviour
     [Header("GroundCheck")]
     public Transform groundCheckPos;
     public Vector2 groundCheckSize;
-    public Vector2 groundCheckSizeBig;
     public LayerMask mask;
     private bool isGrounded;
 
-    [Header("GroundCheck")]
+    [Header("Animator")]
     public Animator animator;
 
+    [Header("Killer")]
+    public LayerMask enemyMask;
+    public Vector2 enemyCheckSize;
+
     public bool canMove = true;
+    public bool canDie = false;
 
 
     void Start()
@@ -47,10 +39,14 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        Debug.Log(Time.timeScale);
+
         if (!canMove)
         {
             // Checks whether we are standing on a ground surface.
             isGrounded = Physics2D.OverlapBox(groundCheckPos.position, groundCheckSize, 0, (int)mask);
+
+            CheckGumba();
 
             // Gets input.
             moveInput.x = Input.GetAxisRaw("Horizontal");
@@ -64,38 +60,27 @@ public class Player : MonoBehaviour
                 Jump(jumpForce);
             }
 
-            if(moveInput.x != 0)
-                animator.SetBool("isMoving", false);
-            else
-                animator.SetBool("isMoving", true);
+            Animate();
         }
     }
 
-    public void EndGame()
+    public void CheckGumba()
     {
+        Collider2D hit = Physics2D.OverlapBox(groundCheckPos.position, enemyCheckSize, 0, (int)enemyMask);
 
-    }
-
-    public void ChangeHealth(int i)
-    {
-        if (i < 0 && pStatus == PlayerStatus.normal) EndGame();
-
-        if (i > 0)
+        if (hit != null)
         {
-            pStatus = PlayerStatus.big;
-
-            gameObject.GetComponent<BoxCollider2D>().size = bigMarioSize;
-            gameObject.GetComponent<BoxCollider2D>().offset = bigMarioSize;
-            animator.SetBool("isBig", true);
+            hit.transform.GetComponent<GumbaScript>().Die();
+            Jump(300);
         }
-        else 
-        { 
-            pStatus = PlayerStatus.normal;
+    }
 
-            gameObject.GetComponent<BoxCollider2D>().size = smallMarioSize;
-            gameObject.GetComponent<BoxCollider2D>().offset = smallMarioSize;
-            animator.SetBool("isBig", false);
-        }
+    public void Animate()
+    {
+        if (moveInput.x != 0)
+            animator.SetBool("isMoving", false);
+        else
+            animator.SetBool("isMoving", true);
     }
 
     private void FixedUpdate()
@@ -122,12 +107,8 @@ public class Player : MonoBehaviour
         Gizmos.color = Color.blue;
         Gizmos.DrawWireCube(groundCheckPos.position, groundCheckSize);
 
-        // Draws an outline of small collider.
+        // Draws an outline of cast to kill gumba.
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(new Vector2(gameObject.transform.position.x + smallMarioOffset.x, gameObject.transform.position.y + smallMarioOffset.y), smallMarioSize);
-
-        // Draws an outline of big collider.
-        Gizmos.color = Color.yellow;
-        Gizmos.DrawWireCube(new Vector2(gameObject.transform.position.x + bigMarioOffset.x, gameObject.transform.position.y + bigMarioOffset.y), bigMarioSize);
+        Gizmos.DrawWireCube(groundCheckPos.position, enemyCheckSize);
     }
 }

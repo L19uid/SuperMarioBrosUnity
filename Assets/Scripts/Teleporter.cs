@@ -13,16 +13,13 @@ public class Teleporter : MonoBehaviour
     {
         if (collision.transform.TryGetComponent(out Player pMovement))
         {
-            Debug.Log("entered");
             if(Input.GetKey(KeyCode.S))
             {
-                Debug.Log("pressed");
                 secondaryCam.SetActive(true);
                 mainCam.SetActive(false);
 
                 pMovement.transform.position = new Vector2(teleportTo.position.x, teleportTo.position.y);
             }
-
         }
     }
 }
