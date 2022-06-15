@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2322440553958721124}
   - component: {fileID: 2322440553958721125}
   - component: {fileID: 2322440553958721122}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Mushroom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -147,7 +147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ab269cd71c0c0f46b7576a2a81e3009, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 4
+  moveSpeed: 6.75
   movingRight: 1
   sideCastPos: {fileID: 2322440554932052004}
   castSize: {x: 0, y: 0}
@@ -169,7 +169,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2322440554932052004}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: CheckSide
   m_TagString: Untagged
   m_Icon: {fileID: 0}

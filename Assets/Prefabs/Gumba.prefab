@@ -120,15 +120,12 @@ MonoBehaviour:
   killCastSize: {x: 1.15, y: 0.3}
   mask:
     serializedVersion: 2
-    m_Bits: 384
-  groundMask:
-    serializedVersion: 2
-    m_Bits: 384
+    m_Bits: 896
   playerMask:
     serializedVersion: 2
     m_Bits: 64
   cc: 0
-  sc: 0
+  gc: 0
 --- !u!50 &6972919405594637417
 Rigidbody2D:
   serializedVersion: 4
@@ -215,7 +212,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 2144107631
-  m_SortingLayer: 3
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 994087701, guid: 0450955132054614fb6c3f8d5795261c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

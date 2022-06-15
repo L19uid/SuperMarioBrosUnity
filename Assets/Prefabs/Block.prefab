@@ -73,17 +73,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf5534777ac4be6448e1f5d678eca924, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destroyable: 0
-  blockBreakP: {fileID: 0}
   msuhroom: 0
   msuhroomGO: {fileID: 0}
   coin: 0
   coinGO: {fileID: 0}
-  floatText: {fileID: 6150286754866437422, guid: 63163aaeccaf3a742b584438a8731535, type: 3}
+  breakable: 0
+  breakableGO: {fileID: 0}
+  floatText: {fileID: 421407686316926951, guid: 2f766f232eabb124885cbd4419feeecf, type: 3}
   rewardPoints: 0
   changeSprite: {fileID: 0}
   ui: {fileID: 0}
   usesCount: 0
+  usedCount: 0
+  used: 0
 --- !u!95 &2067304554818181291
 Animator:
   serializedVersion: 4
@@ -143,7 +145,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1338296325
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 67417674, guid: b18f21c0d927d60488612e8f64e877b3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -60,7 +60,7 @@ public class MushroomScript : MonoBehaviour
 
         if (hit != null)
         {
-            GameObject.Find("Canvas").GetComponent<UISystem>().points += 1000;
+            GameObject.Find("Canvas").GetComponent<UISystem>().AddPoints(1000);
             Destroy(Instantiate(reward, new Vector2(transform.position.x, transform.position.y + .5f), Quaternion.identity), .5f);
             Destroy(gameObject);
         }

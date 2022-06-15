@@ -29,6 +29,7 @@ public class Player : MonoBehaviour
 
     public bool canMove = true;
     public bool canDie = false;
+    public bool canHit = true;
 
 
     void Start()
@@ -68,11 +69,19 @@ public class Player : MonoBehaviour
     {
         Collider2D hit = Physics2D.OverlapBox(groundCheckPos.position, enemyCheckSize, 0, (int)enemyMask);
 
-        if (hit != null)
+        if (hit != null && canHit)
         {
+            StartCoroutine(WaitToAction());
             hit.transform.GetComponent<GumbaScript>().Die();
-            Jump(300);
+            Jump(2000);
         }
+    }
+
+    public IEnumerator WaitToAction()
+    {
+        canHit = false;
+        yield return new WaitForSeconds(.2f);
+        canHit = true;
     }
 
     public void Animate()

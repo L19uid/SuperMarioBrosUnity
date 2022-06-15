@@ -16,7 +16,7 @@ TagManager:
   - Blocks
   - Ground
   - Gumba
-  - 
+  - Mushroom
   - 
   - 
   - 
@@ -44,6 +44,9 @@ TagManager:
     locked: 0
   - name: Background
     uniqueID: 830202555
+    locked: 0
+  - name: Middleground
+    uniqueID: 1876129265
     locked: 0
   - name: Foreground
     uniqueID: 1338296325

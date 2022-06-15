@@ -19,6 +19,8 @@ public class GumbaScript : MonoBehaviour
     public bool cc = false;
     public bool gc = false;
 
+    public GameObject reward;
+
     private bool canMove = true;
 
     // Update is called once per frame
@@ -62,6 +64,9 @@ public class GumbaScript : MonoBehaviour
 
     public void Die()
     {
+        GameObject.Find("Canvas").GetComponent<UISystem>().AddPoints(200);
+        Debug.Log(200);
+        Destroy(Instantiate(reward, new Vector2(transform.position.x, transform.position.y + .5f), Quaternion.identity), .5f);
         gameObject.GetComponent<Animator>().Play("gumba_death");
         Destroy(gameObject, .5f);
     }
